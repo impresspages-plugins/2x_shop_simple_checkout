@@ -1,0 +1,38 @@
+/* Widget: IpSimpleCheckout */
+.ipAdminWidget-IpSimpleCheckout .ipmPaymentMethod {
+    margin-bottom: 5px;
+}
+.ipAdminWidget-IpSimpleCheckout .ipaButton,
+.ipaFieldOptionsContainer .ipaButton {
+    background-color: #000;
+    color: #fff;
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 4px;
+}
+.ipAdminWidget-IpSimpleCheckout .ipAdminInput {
+    width: 40%;
+}
+
+
+.ipAdminWidget-IpSimpleCheckout .ipmOptions{
+    margin-left: 50px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #000;
+}
+
+.ipAdminWidget-IpSimpleCheckout .ipmMove{
+    float: left;
+}
+
+.ipAdminWidget-IpSimpleCheckout .ipmLabel{
+    min-width: 140px;
+    margin-right: 5px;
+    float: left;
+    line-height: 28px;
+}
+
+.ipAdminWidget-IpSimpleCheckout .ipmOption{
+    margin-bottom: 5px;
+    clear: both;
+}
