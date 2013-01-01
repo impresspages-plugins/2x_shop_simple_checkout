@@ -45,3 +45,10 @@ CHECK PLUGIN HEALTH ON LIVE
 ================
 - On production website make sure "DEVELOPMENT_ENVIRONMENT" value in ip_config.php is set to 0.
 - Check if click on checkout button redirects user to Google/PayPal
+
+
+INTEGRATION WITH YOUR WEBSITE
+================
+Plugins throws \Modules\shop\simple_checkout\EventNewOrder::EVENT_NEW_ORDER event on each
+complete order. Catch this event to make required actions. This event has all required information
+to process the order.
