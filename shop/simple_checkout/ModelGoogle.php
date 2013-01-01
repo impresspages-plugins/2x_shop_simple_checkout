@@ -466,5 +466,15 @@ class ModelGoogle
 
     }
 
+    public function correctConfiguration()
+    {
+        if ($this->getActive() && $this->getMerchantId() != '' && $this->getMerchantKey() != '') {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+
 
 }

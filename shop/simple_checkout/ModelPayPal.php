@@ -227,6 +227,12 @@ class ModelPayPal
     }
 
 
+    public function getActive()
+    {
+        global $parametersMod;
+        return $parametersMod->getValue('shop', 'simple_checkout', 'options', 'paypal_active');
+    }
+
     public function getEmail()
     {
         global $parametersMod;
@@ -240,6 +246,15 @@ class ModelPayPal
             return self::PAYPAL_POST_URL_TEST;
         } else {
             return self::PAYPAL_POST_URL;
+        }
+    }
+
+    public function correctConfiguration()
+    {
+        if ($this->getActive() && $this->getEmail()) {
+            return TRUE;
+        } else {
+            return FALSE;
         }
     }
 }

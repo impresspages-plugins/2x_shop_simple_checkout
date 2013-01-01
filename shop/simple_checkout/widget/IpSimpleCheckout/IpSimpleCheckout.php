@@ -87,8 +87,9 @@ class IpSimpleCheckout extends \Modules\standard\content_management\Widget
         global $session;
         global $site;
 
+        $modelGoogle = \Modules\shop\simple_checkout\ModelGoogle::instance();
 
-        if ($parametersMod->getValue('shop', 'simple_checkout', 'options', 'google_active')) {
+        if ($modelGoogle->correctConfiguration()) {
 
 
             if (empty($data['requireLogin']) || $session->loggedIn()) {
@@ -107,7 +108,8 @@ class IpSimpleCheckout extends \Modules\standard\content_management\Widget
             }
         }
 
-        if ($parametersMod->getValue('shop', 'simple_checkout', 'options', 'paypal_active')) {
+        $modelPayPal = \Modules\shop\simple_checkout\ModelPayPal::instance();
+        if ($modelPayPal->correctConfiguration()) {
             if (empty($data['requireLogin']) || $session->loggedIn()) {
                 $data['paypalButton'] = $this->getPayPalButton($instanceId, $data);
             } else {
@@ -126,7 +128,24 @@ class IpSimpleCheckout extends \Modules\standard\content_management\Widget
 
         }
 
-        return parent::previewHtml($instanceId, $data, $layout);
+        $answer = parent::previewHtml($instanceId, $data, $layout);
+
+        if ($site->managementState()) {
+            $incorrectFields = array();
+            if (abs((float)$data['price']) < 0.0001) {
+                $incorrectFields[] = $parametersMod->getValue('shop', 'simple_checkout', 'admin_translations', 'price');
+            }
+            if (mb_strlen($data['currency']) != 3) {
+                $incorrectFields[] = $parametersMod->getValue('shop', 'simple_checkout', 'admin_translations', 'currency');
+            }
+
+            if ($incorrectFields) {
+                $answer = \Ip\View::create('helperView/configurationError.php', array('incorrectFields' => $incorrectFields));
+            }
+        }
+
+
+        return $answer;
     }
 
     public function getPayPalButton($instanceId, $data)
