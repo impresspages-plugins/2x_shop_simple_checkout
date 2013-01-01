@@ -239,6 +239,14 @@ class ModelPayPal
         return $parametersMod->getValue('shop', 'simple_checkout', 'options', 'paypal_email');
     }
 
+    public function setEmail($email)
+    {
+        global $parametersMod;
+        $email = trim($email);
+        $parametersMod->setValue('shop', 'simple_checkout', 'options', 'paypal_email', $email);
+
+    }
+
 
     public function getPayPalUrl()
     {

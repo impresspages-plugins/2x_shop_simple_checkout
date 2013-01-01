@@ -275,12 +275,14 @@ class ModelGoogle
     public function setMerchantId($merchantId)
     {
         global $parametersMod;
+        $merchantId = trim($merchantId);
         $parametersMod->setValue('shop', 'simple_checkout', 'options', 'google_merchant_id', $merchantId);
     }
 
     public function setMerchantKey($merchantKey)
     {
         global $parametersMod;
+        $merchantKey = trim($merchantKey);
         return $parametersMod->setValue('shop', 'simple_checkout', 'options', 'google_merchant_key', $merchantKey);
     }
 
@@ -461,7 +463,6 @@ class ModelGoogle
                 </form></div>";
 
 
-        $button = $cart->CheckoutButtonCode('medium');
         return $button;
 
     }

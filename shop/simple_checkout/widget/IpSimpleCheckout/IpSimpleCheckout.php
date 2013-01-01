@@ -46,9 +46,10 @@ class IpSimpleCheckout extends \Modules\standard\content_management\Widget
             'productId' => $postData['productId']
         );
 
+        $modelPayPal = \Modules\shop\simple_checkout\ModelPayPal::instance();
         $parametersMod->setValue('shop', 'simple_checkout', 'options', 'paypal_active', $postData['paypalActive']);
         $parametersMod->setValue('shop', 'simple_checkout', 'options', 'paypal_priority', $postData['paypalPriority']);
-        $parametersMod->setValue('shop', 'simple_checkout', 'options', 'paypal_email', $postData['paypalEmail']);
+        $modelPayPal->setEmail($postData['paypalEmail']);
 
         $modelGoogle = \Modules\shop\simple_checkout\ModelGoogle::instance();
         $modelGoogle->setActive($postData['googleActive']);
@@ -137,6 +138,14 @@ class IpSimpleCheckout extends \Modules\standard\content_management\Widget
             }
             if (mb_strlen($data['currency']) != 3) {
                 $incorrectFields[] = $parametersMod->getValue('shop', 'simple_checkout', 'admin_translations', 'currency');
+            }
+
+            if ($modelGoogle->getActive() && $modelGoogle->getMerchantId() == '') {
+                $incorrectFields[] = $parametersMod->getValue('shop', 'simple_checkout', 'admin_translations', 'merchant_id');
+            }
+
+            if ($modelGoogle->getActive() && $modelGoogle->getMerchantKey() == '') {
+                $incorrectFields[] = $parametersMod->getValue('shop', 'simple_checkout', 'admin_translations', 'merchant_key');
             }
 
             if ($incorrectFields) {
