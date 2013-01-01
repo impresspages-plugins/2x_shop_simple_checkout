@@ -132,46 +132,6 @@ class ModelGoogle
                         break;
                     }
                     case 'CHARGEABLE': {
-                        global $dispatcher;
-
-
-
-                        $orderXML = $this->requestOrder($data[$root]['google-order-number']['VALUE']);
-                        list($orderRoot, $order) = $Gresponse->GetParsedXML($orderXML);
-
-
-                        if (isset($order[$orderRoot]['notifications']['new-order-notification'])) {
-                            $orderData = $order[$orderRoot]['notifications']['new-order-notification'];
-                        }
-
-
-                        if (isset($orderData['shopping-cart'])) {
-                            $cartData = $orderData['shopping-cart'];
-                        }
-
-                        if (isset($cartData['merchant-private-data'])) {
-                            $merchantData = $cartData['merchant-private-data'];
-                        }
-
-                        $productId = isset($merchantData['productId']['VALUE']) ? $merchantData['productId']['VALUE'] : null;
-                        $userId = isset($merchantData['userId']['VALUE']) ? $merchantData['userId']['VALUE'] : null;
-                        $widgetInstanceId = isset($merchantData['widgetInstanceId']['VALUE']) ? $merchantData['widgetInstanceId']['VALUE'] : null;
-                        $currency = isset($orderData['order-total']['currency']) ? $orderData['order-total']['currency'] : null;
-                        $price = isset($orderData['order-total']['VALUE']) ? $orderData['order-total']['VALUE'] : null;
-                        $buyerEmail = isset($orderData['buyer-billing-address']['email']['VALUE']) ? $orderData['buyer-billing-address']['email']['VALUE'] : null;
-
-                        $widgetObject = \Modules\standard\content_management\Model::getWidgetObject('IpSimpleCheckout');
-                        $validOrder = $widgetObject->checkOrder($widgetInstanceId, $currency, $price, $productId);
-
-                        if ($validOrder || true) {
-                            $completedOrderEvent = new  EventNewOrder($this, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId);
-                            $dispatcher->notify($completedOrderEvent);
-                        } else {
-                            //something went wrong. Notification values doesn't match widget values. Possible hack. Ignore.
-                        }
-
-                        //$Grequest->SendProcessOrder($data[$root]['google-order-number']['VALUE']);
-                        //$Grequest->SendChargeOrder($data[$root]['google-order-number']['VALUE'],'');
                         break;
                     }
                     case 'CHARGING': {
@@ -214,6 +174,44 @@ class ModelGoogle
                 break;
             }
             case "charge-amount-notification": {
+                global $dispatcher;
+
+
+
+                $orderXML = $this->requestOrder($data[$root]['google-order-number']['VALUE']);
+                list($orderRoot, $order) = $Gresponse->GetParsedXML($orderXML);
+
+
+                if (isset($order[$orderRoot]['notifications']['new-order-notification'])) {
+                    $orderData = $order[$orderRoot]['notifications']['new-order-notification'];
+                }
+
+
+                if (isset($orderData['shopping-cart'])) {
+                    $cartData = $orderData['shopping-cart'];
+                }
+
+                if (isset($cartData['merchant-private-data'])) {
+                    $merchantData = $cartData['merchant-private-data'];
+                }
+
+                $productId = isset($merchantData['productId']['VALUE']) ? $merchantData['productId']['VALUE'] : null;
+                $userId = isset($merchantData['userId']['VALUE']) ? $merchantData['userId']['VALUE'] : null;
+                $widgetInstanceId = isset($merchantData['widgetInstanceId']['VALUE']) ? $merchantData['widgetInstanceId']['VALUE'] : null;
+                $currency = isset($orderData['order-total']['currency']) ? $orderData['order-total']['currency'] : null;
+                $price = isset($orderData['order-total']['VALUE']) ? $orderData['order-total']['VALUE'] : null;
+                $buyerEmail = isset($orderData['buyer-billing-address']['email']['VALUE']) ? $orderData['buyer-billing-address']['email']['VALUE'] : null;
+
+                $widgetObject = \Modules\standard\content_management\Model::getWidgetObject('IpSimpleCheckout');
+                $validOrder = $widgetObject->checkOrder($widgetInstanceId, $currency, $price, $productId);
+
+                if ($validOrder || true) {
+                    $completedOrderEvent = new  EventNewOrder($this, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId);
+                    $dispatcher->notify($completedOrderEvent);
+                } else {
+                    //something went wrong. Notification values doesn't match widget values. Possible hack. Ignore.
+                }
+
                 //$Grequest->SendDeliverOrder($data[$root]['google-order-number']['VALUE'],
                 //    <carrier>, <tracking-number>, <send-email>);
                 //$Grequest->SendArchiveOrder($data[$root]['google-order-number']['VALUE'] );
