@@ -76,6 +76,16 @@ class AreaItem extends \Modules\developer\std_mod\Area
         );
         $this->addElement($element);
 
+        $element = new \Modules\developer\std_mod\ElementBool(
+            array(
+                'title' => 'Test', //Field name
+                'dbField' => 'test',
+                'showOnList' => true, //Show field value in list of all records
+                'searchable' => true, //Allow to search by this field
+            )
+        );
+        $this->addElement($element);
+
 
         $element = new \Modules\developer\std_mod\ElementDateTime( //text field
             array(

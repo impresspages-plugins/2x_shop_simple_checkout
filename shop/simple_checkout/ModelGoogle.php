@@ -206,7 +206,7 @@ class ModelGoogle
                 $validOrder = $widgetObject->checkOrder($widgetInstanceId, $currency, $price, $productId);
 
                 if ($validOrder || true) {
-                    $completedOrderEvent = new  EventNewOrder($this, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId);
+                    $completedOrderEvent = new  EventNewOrder($this, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId, $this->isInSandboxMode());
                     $dispatcher->notify($completedOrderEvent);
                 } else {
                     //something went wrong. Notification values doesn't match widget values. Possible hack. Ignore.

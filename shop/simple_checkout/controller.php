@@ -13,6 +13,14 @@ namespace Modules\shop\simple_checkout;
 class Controller extends \Ip\Controller
 {
 
+    public function test()
+    {
+        global $dispatcher;
+        $completedOrderEvent = new  EventNewOrder($this, $buyerEmail = 'test@test.lt', '129.29', 'usd', '1004', '125', '10', true);
+        $dispatcher->notify($completedOrderEvent);
+
+    }
+
     /**
      * Handle notifications from Google Checkout
      */

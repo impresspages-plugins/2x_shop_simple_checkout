@@ -13,7 +13,7 @@ class EventNewOrder extends \Ip\Event{
     const EVENT_NEW_ORDER = 'simpleCheckout.newOrder';
 
 
-    public function __construct($object, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId) {
+    public function __construct($object, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId, $test) {
 
 
         $eventData = array(
@@ -22,7 +22,8 @@ class EventNewOrder extends \Ip\Event{
             'currency' => $currency,
             'widgetInstanceId' => $widgetInstanceId,
             'productId' => $productId,
-            'userId' => $userId
+            'userId' => $userId,
+            'test' => $test
         );
 
         return parent::__construct($object, self::EVENT_NEW_ORDER, $eventData);
@@ -59,6 +60,11 @@ class EventNewOrder extends \Ip\Event{
     {
         return $this->getValue('currency');
 
+    }
+
+    public function getTest()
+    {
+        return $this->getValue('test');
     }
 
 }

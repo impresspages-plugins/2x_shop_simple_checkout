@@ -28,7 +28,7 @@ class ModelOrder {
         return self::$instance;
     }
 
-    public function insetOrder($price, $currency, $userId, $email, $created, $comment)
+    public function insetOrder($price, $currency, $userId, $email, $test, $created, $comment)
     {
         if (is_string($price)) {
             $price = (float) $price;
@@ -44,6 +44,7 @@ class ModelOrder {
                     `currency` = :currency,
                     `userId` = :userId,
                     `email` = :email,
+                    `test` = :test,
                     `created` = :created,
                     `comment` = :comment
             ';
@@ -53,6 +54,7 @@ class ModelOrder {
             ':currency' => $currency,
             ':userId' => $userId,
             ':email' => $email,
+            ':test' => $test,
             ':created' => $created,
             ':comment' => $comment
         );

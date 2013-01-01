@@ -80,7 +80,7 @@ class ModelPayPal
         if ($response["httpResponse"] == 'VERIFIED') {
             global $dispatcher;
             $log->log('shop/simple_checkout', 'Successful PayPal notification', json_encode($this->checkEncoding($_POST)));
-            $completedOrderEvent = new  EventNewOrder($this, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId);
+            $completedOrderEvent = new  EventNewOrder($this, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId, $this->isInSandboxMode());
             $dispatcher->notify($completedOrderEvent);
         } else {
             $log->log('shop/simple_checkout', 'PayPal doesn\'t recognize the payment', json_encode($this->checkEncoding($_POST)));
@@ -250,11 +250,21 @@ class ModelPayPal
 
     public function getPayPalUrl()
     {
-        if (DEVELOPMENT_ENVIRONMENT) {
+        if ($this->isInSandboxMode()) {
             return self::PAYPAL_POST_URL_TEST;
         } else {
             return self::PAYPAL_POST_URL;
         }
+    }
+
+    public function isInSandboxMode()
+    {
+        if (DEVELOPMENT_ENVIRONMENT) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+
     }
 
     public function correctConfiguration()

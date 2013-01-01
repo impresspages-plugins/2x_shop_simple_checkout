@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `".DB_PREF."m_shop_simple_checkout_order` (
   `currency` varchar(3) NOT NULL,
   `userId` int(11) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
+  `test` int(1) DEFAULT NULL,
   `created` int(11) NOT NULL COMMENT 'unix timestamp when record has been created',
   `comment` int(11) DEFAULT NULL COMMENT 'add any comment about this order',
   PRIMARY KEY (`id`)
