@@ -42,6 +42,7 @@ class ModelGoogle
     }
 
 
+
     public function processGoogleCallback()
     {
         global $log;
@@ -459,6 +460,8 @@ class ModelGoogle
                 src=\"".$buttonSrc."\" />
                 </form></div>";
 
+
+        $button = $cart->CheckoutButtonCode('medium');
         return $button;
 
     }

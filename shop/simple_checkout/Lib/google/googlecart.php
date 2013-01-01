@@ -397,7 +397,7 @@
      * @return string the cart's xml
      */
     function GetXML() {
-      require_once(dirname(__FILE__) . '/xml-processing/gc_xmlbuilder.php');
+      require_once(dirname(__FILE__).'/xml-processing/gc_xmlbuilder.php');
 
       $xml_data = new gc_XmlBuilder();
 
@@ -1030,7 +1030,7 @@
      *               and the redirect url returned by the server in index 1
      */
     function CheckoutServer2Server($proxy=array(), $certPath='') {
-      require_once(dirname(__FILE__) . '/googlerequest.php');
+      require_once(dirname(__FILE__).'/googlerequest.php');
       $GRequest = new GoogleRequest($this->merchant_id, 
                       $this->merchant_key, 
                       $this->server_url=="https://checkout.google.com/"?
@@ -1200,7 +1200,7 @@
                 <input type=\"image\" name=\"Checkout\" alt=\"Checkout\" 
                 src=\"". $this->server_url."buttons/checkout.gif?merchant_id=" .
                 $this->merchant_id."&amp;w=".$width. "&amp;h=".$height."&amp;style=".
-                $style."&amp;variant=".$this->variant."&amp;loc=".$loc."\"
+                $style."&amp;variant=".$this->variant."&amp;loc=".$loc."\" 
                 style=\"height:".$height."px;width:".$width. "px\" />";
                 
         if($this->googleAnalytics_id) {
@@ -1381,7 +1381,7 @@
                 " onsubmit=\"setUrchinInputCode();\"":"") . ">";
 
         $request = $this->GetXML();
-        require_once(dirname(__FILE__) . '/xml-processing/gc_xmlparser.php');
+        require_once(dirname(__FILE__).'/xml-processing/gc_xmlparser.php');
         $xml_parser = new gc_xmlparser($request);
         $root = $xml_parser->GetRoot();
         $XMLdata = $xml_parser->GetData();

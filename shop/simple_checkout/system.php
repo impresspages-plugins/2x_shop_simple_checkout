@@ -25,8 +25,10 @@ class System{
     {   global $log;
 
         $data = $event->getValues();
+        $log->log('shop/simple_checkout', 'New Order', json_encode($data));
 
-        $log->log('new order', 'new_order1', json_encode($data));
+        $service = Service::instance();
+        $service->insertOrder($event->getPrice(), $event->getCurrency(), $event->getUserId(), $event->getBuyerEmail(), null);
     }
 
 

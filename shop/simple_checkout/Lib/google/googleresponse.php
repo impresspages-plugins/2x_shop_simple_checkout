@@ -46,7 +46,7 @@
       $this->merchant_id = $id;
       $this->merchant_key = $key;
       $this->schema_url = "http://checkout.google.com/schema/2";
-      require_once(dirname(__FILE__) . '/googlelog.php');
+      require_once(dirname(__FILE__).'/googlelog.php');
       $this->log = new GoogleLog('', '', L_OFF);
     }
 
@@ -213,7 +213,7 @@
       if(!is_null($request)) {
         $this->log->LogRequest($request);
         $this->response = $request;
-        require_once(dirname(__FILE__) . '/xml-processing/gc_xmlparser.php');
+        require_once(dirname(__FILE__).'/xml-processing/gc_xmlparser.php');
 
         $this->xml_parser = new gc_XmlParser($request);
         $this->root = $this->xml_parser->GetRoot();

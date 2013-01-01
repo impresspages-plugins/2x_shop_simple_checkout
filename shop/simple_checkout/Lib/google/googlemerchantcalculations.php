@@ -60,7 +60,7 @@
      * @return string the response xml
      */
     function GetXML() {
-      require_once(dirname(__FILE__) . '/xml-processing/gc_xmlbuilder.php');
+      require_once(dirname(__FILE__).'/xml-processing/gc_xmlbuilder.php');
 
       $xml_data = new gc_XmlBuilder();
       $xml_data->Push('merchant-calculation-results', 

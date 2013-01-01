@@ -83,7 +83,7 @@
       $this->merchant_checkout = $this->base_url . "merchantCheckout/Merchant/" . $this->merchant_id;
 
       ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.'.');
-      require_once(dirname(__FILE__) . '/googlelog.php');
+      require_once(dirname(__FILE__).'/googlelog.php');
       $this->log = new GoogleLog('', '', L_OFF);
       
     }
@@ -124,7 +124,7 @@
       if($status != 200 ){
           return array($status, $body);
       } else {
-        require_once(dirname(__FILE__) . '/xml-processing/gc_xmlparser.php');
+        require_once(dirname(__FILE__).'/xml-processing/gc_xmlparser.php');
   
         $xml_parser = new gc_xmlparser($body);
         $root = $xml_parser->GetRoot();
