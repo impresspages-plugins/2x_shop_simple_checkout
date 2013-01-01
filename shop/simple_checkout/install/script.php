@@ -17,13 +17,34 @@ class Install
     {
         global $site;
 
-
+        $this->createOrderTable();
 
         $userZone = $site->getZoneByModule('community', 'user');
 
         if (!$userZone) {
             $this->createUserZone('User');
         }
+
+    }
+
+    private function createOrderTable()
+    {
+
+        $sql = "
+CREATE TABLE IF NOT EXISTS `".DB_PREF."m_shop_simple_checkout_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `price` int(11) NOT NULL COMMENT 'in cents',
+  `currency` varchar(3) NOT NULL,
+  `userId` int(11) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `created` int(11) NOT NULL COMMENT 'unix timestamp when record has been created',
+  `comment` int(11) DEFAULT NULL COMMENT 'add any comment about this order',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+        ";
+        $dbh = \Ip\Db::getConnection();
+        $q = $dbh->prepare($sql);
+        $q->execute();
 
     }
 
