@@ -25,8 +25,8 @@ class AreaItem extends \Modules\developer\std_mod\Area
                 'orderBy' => 'id', //Database field, by which the records should be ordered by default
                 'orderDirection' => 'desc',
                 'sortable' => false, //Does user have a right to change the order of records
-                'allowInsert' => true,
-                'allowUpdate' => true,
+                'allowInsert' => false,
+                'allowUpdate' => false,
                 'allowDelete' => true,
                 'searchable' => true,
             )
@@ -39,6 +39,8 @@ class AreaItem extends \Modules\developer\std_mod\Area
                 'dbField' => 'price',
                 'showOnList' => true, //Show field value in list of all records
                 'searchable' => true, //Allow to search by this field
+                'disabledOnUpdate' => true,
+
             )
         );
         $this->addElement($element);
@@ -50,6 +52,8 @@ class AreaItem extends \Modules\developer\std_mod\Area
                 'dbField' => 'currency',
                 'showOnList' => true, //Show field value in list of all records
                 'searchable' => true, //Allow to search by this field
+                'disabledOnUpdate' => true,
+
             )
         );
         $this->addElement($element);
@@ -60,6 +64,7 @@ class AreaItem extends \Modules\developer\std_mod\Area
                 'dbField' => 'userId',
                 'showOnList' => true, //Show field value in list of all records
                 'searchable' => true, //Allow to search by this field
+
             )
         );
         $this->addElement($element);
@@ -86,6 +91,30 @@ class AreaItem extends \Modules\developer\std_mod\Area
         );
         $this->addElement($element);
 
+
+        $element = new \Modules\developer\std_mod\ElementText( //text field
+            array(
+                'title' => 'Payment method', //Field name
+                'dbField' => 'payment_method',
+                'showOnList' => true, //Show field value in list of all records
+                'searchable' => true, //Allow to search by this field
+                'disabledOnUpdate' => true,
+                'disabledOnInsert' => true
+            )
+        );
+        $this->addElement($element);
+
+        $element = new \Modules\developer\std_mod\ElementText( //text field
+            array(
+                'title' => 'Payment id', //Field name
+                'dbField' => 'payment_id',
+                'showOnList' => true, //Show field value in list of all records
+                'searchable' => true, //Allow to search by this field
+                'disabledOnUpdate' => true,
+                'disabledOnInsert' => true
+            )
+        );
+        $this->addElement($element);
 
         $element = new \Modules\developer\std_mod\ElementDateTime( //text field
             array(

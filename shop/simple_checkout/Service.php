@@ -29,11 +29,11 @@ class Service {
     }
 
 
-    public function insertOrder($price, $currency, $userId, $email, $test, $comment = null)
+    public function insertOrder($price, $currency, $userId, $email, $test, $paymentMethod, $paymentId, $comment = null)
     {
         $modelOrder = ModelOrder::instance();
         $created = time();
-        $modelOrder->insetOrder($price, $currency, $userId, $email, $test, $created, $comment);
+        $modelOrder->insetOrder($price, $currency, $userId, $email, $test, $created, $paymentMethod, $paymentId, $comment);
     }
 
 }

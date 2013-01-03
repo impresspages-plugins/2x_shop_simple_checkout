@@ -37,11 +37,15 @@ CREATE TABLE IF NOT EXISTS `".DB_PREF."m_shop_simple_checkout_order` (
   `currency` varchar(3) NOT NULL,
   `userId` int(11) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
+  `payment_method` enum('google','paypal') NOT NULL COMMENT 'google, paypal, etc.',
+  `payment_id` varchar(32) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT 'uniquely identifies payment in payment system',
   `test` int(1) DEFAULT NULL,
   `created` int(11) NOT NULL COMMENT 'unix timestamp when record has been created',
   `comment` int(11) DEFAULT NULL COMMENT 'add any comment about this order',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  KEY `payment_system` (`payment_method`,`payment_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
         ";
         $dbh = \Ip\Db::getConnection();
         $q = $dbh->prepare($sql);

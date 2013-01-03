@@ -28,7 +28,7 @@ class System{
         $log->log('shop/simple_checkout', 'New Order', json_encode($data));
 
         $service = Service::instance();
-        $service->insertOrder($event->getPrice(), $event->getCurrency(), $event->getUserId(), $event->getBuyerEmail(), $event->getTest(), null);
+        $service->insertOrder($event->getPrice(), $event->getCurrency(), $event->getUserId(), $event->getBuyerEmail(), $event->getTest(), $event->getPaymentMethod(), $event->getPaymentId(), null);
     }
 
 

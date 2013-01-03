@@ -201,14 +201,19 @@ class ModelGoogle
                 $currency = isset($orderData['order-total']['currency']) ? $orderData['order-total']['currency'] : null;
                 $price = isset($orderData['order-total']['VALUE']) ? $orderData['order-total']['VALUE'] : null;
                 $buyerEmail = isset($orderData['buyer-billing-address']['email']['VALUE']) ? $orderData['buyer-billing-address']['email']['VALUE'] : null;
+                $paymentId = isset($orderData['google-order-number']['VALUE']) ? $orderData['google-order-number']['VALUE'] : null;
+
+                $modelOrder = ModelOrder::instance();
+                $duplicate = $modelOrder->paymentExists(ModelOrder::METHOD_GOOGLE, $paymentId);
 
                 $widgetObject = \Modules\standard\content_management\Model::getWidgetObject('IpSimpleCheckout');
                 $validOrder = $widgetObject->checkOrder($widgetInstanceId, $currency, $price, $productId);
 
-                if ($validOrder || true) {
-                    $completedOrderEvent = new  EventNewOrder($this, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId, $this->isInSandboxMode());
+                if ($validOrder && !$duplicate) {
+                    $completedOrderEvent = new  EventNewOrder($this, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId, ModelOrder::METHOD_GOOGLE, $paymentId, $this->isInSandboxMode());
                     $dispatcher->notify($completedOrderEvent);
                 } else {
+                    $log->log('shop/simple_checkout', 'incorrectOrder', 'Valid order: '.$validOrder.', Duplicate '.$duplicate);
                     //something went wrong. Notification values doesn't match widget values. Possible hack. Ignore.
                 }
 

@@ -13,13 +13,7 @@ namespace Modules\shop\simple_checkout;
 class Controller extends \Ip\Controller
 {
 
-    public function test()
-    {
-        global $dispatcher;
-        $completedOrderEvent = new  EventNewOrder($this, $buyerEmail = 'test@test.lt', '129.29', 'usd', '1004', '125', '10', true);
-        $dispatcher->notify($completedOrderEvent);
 
-    }
 
     /**
      * Handle notifications from Google Checkout
@@ -107,5 +101,19 @@ class Controller extends \Ip\Controller
             $site->setOutput($autoCheckoutPage);
         }
     }
+
+//    public function test()
+//    {
+//        global $dispatcher;
+//
+//
+//        $modelOrder = ModelOrder::instance();
+//        $duplicate = $modelOrder->paymentExists(ModelOrder::METHOD_GOOGLE, 1);
+//
+//
+//        $completedOrderEvent = new  EventNewOrder($this, $buyerEmail = 'test@test.lt', '129.29', 'usd', '1004', '125', '10', 'google', 1, true);
+//        $dispatcher->notify($completedOrderEvent);
+//
+//    }
 
 }

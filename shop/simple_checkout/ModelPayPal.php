@@ -61,6 +61,7 @@ class ModelPayPal
         $currency = isset($notificationData['mc_currency']) ? $notificationData['mc_currency'] : null;
         $price = isset($notificationData['mc_gross']) ? $notificationData['mc_gross'] : null;
         $buyerEmail = isset($notificationData['payer_email']) ? $notificationData['payer_email'] : null;
+        $paymentId = isset($notificationData['txn_id']) ? $notificationData['txn_id'] : null;
 
         //check notification values
         $widgetObject = \Modules\standard\content_management\Model::getWidgetObject('IpSimpleCheckout');
@@ -75,13 +76,18 @@ class ModelPayPal
         }
 
 
-
-
         if ($response["httpResponse"] == 'VERIFIED') {
-            global $dispatcher;
-            $log->log('shop/simple_checkout', 'Successful PayPal notification', json_encode($this->checkEncoding($_POST)));
-            $completedOrderEvent = new  EventNewOrder($this, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId, $this->isInSandboxMode());
-            $dispatcher->notify($completedOrderEvent);
+            $modelOrder = ModelOrder::instance();
+            $duplicate = $modelOrder->paymentExists(ModelOrder::METHOD_PAYPAL, $paymentId);
+
+            if (!$duplicate) {
+                global $dispatcher;
+                $log->log('shop/simple_checkout', 'Successful PayPal notification', json_encode($this->checkEncoding($_POST)));
+                $completedOrderEvent = new EventNewOrder($this, $buyerEmail, $price, $currency, $widgetInstanceId, $productId, $userId, ModelOrder::METHOD_PAYPAL, $paymentId, $this->isInSandboxMode());
+                $dispatcher->notify($completedOrderEvent);
+            } else {
+                $log->log('shop/simple_checkout', 'duplicate PayPal payment', $paymentId);
+            }
         } else {
             $log->log('shop/simple_checkout', 'PayPal doesn\'t recognize the payment', json_encode($this->checkEncoding($_POST)));
             $log->log('shop/simple_checkout', 'PayPal doesn\'t recognize the payment2', json_encode($this->checkEncoding($response)));
