@@ -110,7 +110,7 @@ class IpSimpleCheckout extends \Modules\standard\content_management\Widget
         }
 
         $modelPayPal = \Modules\shop\simple_checkout\ModelPayPal::instance();
-        if ($modelPayPal->correctConfiguration()) {
+        if ($modelPayPal->correctConfiguration()) { 
             if (empty($data['requireLogin']) || $session->loggedIn()) {
                 $data['paypalButton'] = $this->getPayPalButton($instanceId, $data);
             } else {
@@ -122,8 +122,8 @@ class IpSimpleCheckout extends \Modules\standard\content_management\Widget
                     'widgetInstanceId' => $instanceId
                 );
                 $loginUrl = $site->generateUrl(null, null, null, $params);
-                $loginButton = \Ip\View::create('helperView/googleLoginRequired.php', array('loginUrl' => $loginUrl))->render();
-                $data['googleButton'] = $loginButton;
+                $loginButton = \Ip\View::create('helperView/paypalLoginRequired.php', array('loginUrl' => $loginUrl))->render();
+                $data['paypalButton'] = $loginButton;
             }
 
 
